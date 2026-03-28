@@ -1629,16 +1629,20 @@ open class CameraActivity : AppCompatActivity(R.layout.activity_camera) {
                     }
                 )
                 .setVideoStabilizationMode(
-                    when (cameraConfiguration) {
-                        is CameraConfiguration.Video -> when (
-                            cameraConfiguration.enableVideoStabilization
-                        ) {
-                            true -> VideoStabilizationMode.getMode(cameraConfiguration.camera)
-                            false -> null
-                        }
+                    if (!resources.getBoolean(R.bool.config_enableVideoStabilization)) {
+                        VideoStabilizationMode.OFF
+                    } else {
+                        when (cameraConfiguration) {
+                            is CameraConfiguration.Video -> when (
+                                cameraConfiguration.enableVideoStabilization
+                            ) {
+                                true -> VideoStabilizationMode.getMode(cameraConfiguration.camera)
+                                false -> null
+                            }
 
-                        else -> null
-                    } ?: VideoStabilizationMode.OFF
+                            else -> null
+                        } ?: VideoStabilizationMode.OFF
+                    }
                 )
                 .setEdgeMode(camera2Options.edgeMode)
                 .setNoiseReductionMode(camera2Options.noiseReductionMode)

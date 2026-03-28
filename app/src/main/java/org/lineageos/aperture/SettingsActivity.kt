@@ -159,6 +159,9 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
         }
         private val saveLocation by lazy { findPreference<SwitchPreference>("save_location") }
         private val shutterSound by lazy { findPreference<SwitchPreference>("shutter_sound") }
+        private val videoStabilization by lazy {
+            findPreference<SwitchPreference>("video_stabilization")
+        }
 
         private val photoCaptureModePreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
@@ -206,6 +209,9 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
                     }
             }
             shutterSound?.isVisible = !CameraSoundsUtils.mustPlaySounds
+
+            // Video stabilization mode
+            videoStabilization?.isVisible = resources.getBoolean(R.bool.config_enableVideoStabilization)
 
             // Photo capture mode
             photoCaptureMode.onPreferenceChangeListener = photoCaptureModePreferenceChangeListener
